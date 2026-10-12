@@ -3,7 +3,8 @@
 
 A dynamic 2D web-based driving game featuring vehicle control, dynamic game environments, medical emergency mechanics, police chase systems, and immersive audio effects. Built with modular JavaScript modules and HTML5 Canvas.
 
-[![live_demo](https://img.shields.io/badge/live_demo-%23444444.svg?style=plastic&logo=rockstargames&logoColor=FCAF17)](https://0xbabyalien.github.io/Gangster2D/)  
+[![live_demo](https://img.shields.io/badge/live_demo-%23444444.svg?style=plastic&logo=rockstargames&logoColor=FCAF17)](https://0xbabyalien.github.io/Gangster2D/) [![sponsors](https://img.shields.io/badge/sponsors-%23444444.svg?style=plastic&logo=githubsponsors&logoColor=EA4AAA)](https://github.com/sponsors/0xbabyalien) [![paypal](https://img.shields.io/badge/paypal-%23444444.svg?style=plastic&logo=paypal&logoColor=002991)](https://paypal.me/0xbabyalien) [![give_btc](https://img.shields.io/badge/give_btc-%23444444.svg?style=plastic&logo=bitcoin&logoColor=F7931A)](https://pay.blink.sv/0xbabyalien) [![give_coin](https://img.shields.io/badge/give_crypto-%23444444.svg?style=plastic&logo=ethereum&logoColor=F0B90B)](https://link.trustwallet.com/send?coin=20000714&address=0x960fbe9b5c9e9bb514f0eb55ad63c4fd459bf07d&amount=0.003)  
+  
 
 ---
 
