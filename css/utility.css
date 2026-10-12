@@ -1,0 +1,96 @@
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ui-font:'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+body{background:radial-gradient(circle at 50% 30%,#1b2433,#07090d);display:flex;justify-content:center;align-items:center;min-height:100vh;min-height:100dvh;font-family:var(--ui-font);overflow:hidden}
+/* the wrapper is as wide as possible while the 4:3 game view still fits the screen height */
+#wrapper{position:relative;width:min(95vw,800px,calc(95vh * 4 / 3));background:#000;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.14)}
+#stage{position:relative;width:100%;aspect-ratio:800/600;overflow:hidden}
+canvas{width:100%;height:100%;display:block}
+#game{position:absolute;inset:0}
+#vignette{position:absolute;inset:0;pointer-events:none;z-index:1;background:radial-gradient(ellipse at center,transparent 62%,rgba(0,0,0,.3) 100%)}
+.hud-box,#density{background:rgba(14,19,28,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);box-shadow:0 4px 14px rgba(0,0,0,.35)}
+#hud{position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;padding:10px;pointer-events:none;gap:6px;z-index:2}
+.hud-box{color:#fff;border-radius:10px;padding:6px 11px;font-size:12px;font-weight:600;letter-spacing:.5px;line-height:1.4}
+.dim{opacity:.6;font-weight:500;font-size:10px;letter-spacing:.8px}
+#minimap{position:absolute;left:10px;top:68px;width:96px;height:96px;border-radius:12px;border:2px solid rgba(255,255,255,.75);box-shadow:0 4px 14px rgba(0,0,0,.45);background:#2d3436;z-index:2}
+#density{position:absolute;right:10px;top:68px;border-radius:12px;color:#fff;font-size:11px;padding:7px 9px;text-align:center;pointer-events:auto;z-index:2}
+#density b{font-size:13px}
+#density button{font-family:var(--ui-font);font-size:15px;font-weight:700;width:28px;height:26px;margin:4px 2px 0;border:0;border-radius:8px;cursor:pointer;color:#fff;background:linear-gradient(#4a5568,#2d3748);box-shadow:0 2px 0 #151a22}
+#density button:active{transform:translateY(2px);box-shadow:none}
+/* controls: drawn over the game on desktop */
+#controls{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.45));touch-action:none;z-index:2}
+.dpad{display:grid;grid-template-columns:46px 46px 46px;grid-template-rows:46px 46px;gap:5px}
+.actions{display:grid;grid-template-columns:auto auto;grid-template-rows:auto auto;gap:8px 10px;align-items:center;justify-items:center}
+.actions #btnFire{grid-column:2;grid-row:1 / span 2;width:84px;height:84px}
+.actions #btnE,.actions #btnHorn{width:54px;height:54px;font-size:17px}
+.actions #btnE{grid-column:1;grid-row:1}
+.actions #btnHorn{grid-column:1;grid-row:2}
+.btn{display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;user-select:none;-webkit-user-select:none;cursor:pointer;border-radius:13px;background:linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,.12));border:1px solid rgba(255,255,255,.4);box-shadow:0 3px 0 rgba(0,0,0,.4),0 6px 14px rgba(0,0,0,.3);transition:transform .05s;touch-action:none}
+.btn:active{transform:translateY(3px);box-shadow:none}
+.btn-round{width:66px;height:66px;border-radius:50%;font-size:20px;font-weight:700;flex-direction:column;line-height:1.1}
+.sub{font-size:9px;font-weight:600;letter-spacing:.6px;opacity:.9}
+#btnE{background:linear-gradient(#37d6ff,#0a9fd0)}
+#btnFire{background:linear-gradient(#ff7a5c,#d62f1f);font-size:26px}
+#btnHorn{background:linear-gradient(#fff,#c9d1d9);color:#222}
+
+/* ---- touch screens, portrait: the controls get their own bar BELOW the game, so nothing covers the view ---- */
+@media (pointer:coarse) and (orientation:portrait), (max-width:560px) and (orientation:portrait){
+  body{align-items:flex-start}
+  #wrapper{width:100vw;border-radius:0;box-shadow:none}
+  #controls{position:relative;background:#0d1117;padding:14px 20px 22px}
+  .dpad{grid-template-columns:repeat(3,60px);grid-template-rows:repeat(2,60px);gap:6px}
+  .actions #btnFire{width:78px;height:78px}
+  .actions #btnE,.actions #btnHorn{width:50px;height:50px;font-size:15px}
+  #status{top:6px;transform:translateX(-50%) scale(.85);transform-origin:top center}
+  #toast{top:44px;font-size:10px;padding:3px 8px}
+  .hud-box:first-child{display:none}                 /* the title box is not needed on a small screen */
+  #hud{padding:6px;justify-content:flex-end}
+  .hud-box{font-size:10px;padding:4px 8px}
+  #minimap{left:6px;top:6px;width:60px;height:60px;border-width:1px;border-radius:8px}
+  #density{right:6px;top:34px;padding:3px 6px;font-size:9px;display:flex;align-items:center;gap:3px;border-radius:9px}
+  #density .dim,#density br{display:none}
+  #density b{font-size:10px;margin-right:2px}
+  #density button{width:22px;height:20px;font-size:12px;margin:0;border-radius:6px}
+}
+/* ---- touch screens, landscape: small, see-through controls in the lower corners, no dark band ---- */
+@media (pointer:coarse) and (orientation:landscape){
+  #wrapper{border-radius:0;box-shadow:none}
+  #controls{background:none;padding:6px 10px;pointer-events:none}
+  #controls .dpad,#controls .actions{pointer-events:auto}
+  .dpad{grid-template-columns:repeat(3,40px);grid-template-rows:repeat(2,40px);gap:4px}
+  .btn{opacity:.5;font-size:13px}
+  .btn:active{opacity:.85}
+  .actions{gap:5px 6px}
+  .actions #btnFire{width:60px;height:60px;font-size:20px}
+  .actions #btnE,.actions #btnHorn{width:38px;height:38px;font-size:13px}
+  .sub{font-size:7px}
+  #status{top:6px;transform:translateX(-50%) scale(.8);transform-origin:top center}
+  #toast{top:40px;font-size:10px;padding:3px 8px}
+  .hud-box:first-child{display:none}
+  #hud{padding:6px;justify-content:flex-end}
+  .hud-box{font-size:10px;padding:4px 8px}
+  #minimap{left:6px;top:6px;width:56px;height:56px;border-width:1px;border-radius:8px}
+  #density{top:32px;right:6px;padding:3px 6px;font-size:9px;display:flex;align-items:center;gap:3px;border-radius:9px;opacity:.85}
+  #density .dim,#density br{display:none}
+  #density b{font-size:10px;margin-right:2px}
+  #density button{width:22px;height:20px;font-size:12px;margin:0;border-radius:6px}
+  #vignette{display:none}
+}
+
+/* ---- police / wanted level ---- */
+#status{position:absolute;top:10px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none;z-index:2}
+#wanted{font-size:19px;letter-spacing:3px;line-height:1;text-shadow:0 2px 6px rgba(0,0,0,.7)}
+#wanted i{font-style:normal;color:rgba(255,255,255,.28)}
+#wanted i.on{color:#ffd32a;text-shadow:0 0 8px rgba(255,211,42,.9),0 2px 4px rgba(0,0,0,.7)}
+#wanted.hunt{animation:hunt .7s steps(2,end) infinite}
+@keyframes hunt{50%{filter:drop-shadow(0 0 7px #4da3ff) brightness(1.25)}}
+#hpwrap{width:112px;height:8px;border-radius:5px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.35);overflow:hidden}
+#hp{height:100%;width:100%;background:#2ecc71;transition:width .15s}
+#toast{position:absolute;top:62px;left:50%;transform:translateX(-50%);background:rgba(180,30,30,.82);color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;padding:5px 12px;border-radius:8px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:2;white-space:nowrap}
+#toast.show{opacity:1}
+#toast.info{background:rgba(20,130,85,.85)}
+#banner{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(28px,8vw,54px);font-weight:900;letter-spacing:4px;text-shadow:0 4px 18px rgba(0,0,0,.8);background:rgba(0,0,0,.45);pointer-events:none;z-index:3;color:#fff}
+#banner small{font-size:.28em;font-weight:600;letter-spacing:2px;margin-top:8px;opacity:.85}
+#banner.show{display:flex}
+#banner.busted{color:#6db3ff}
+#banner.wasted{color:#ff4d4d}
+#hitflash{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .12s;background:radial-gradient(ellipse at center,transparent 35%,rgba(220,20,20,.75) 100%);z-index:1}
