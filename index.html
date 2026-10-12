@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>GANGSTER 2D - PHASER 3</title>
+<link rel="stylesheet" href="css/utility.css?v=3"/>
+</head>
+<body>
+<div id="wrapper">
+<div id="stage">
+<div id="game"></div>
+<div id="vignette"></div>
+<div id="hitflash"></div>
+<div id="status"><div id="wanted"></div><div id="hpwrap"><div id="hp"></div></div></div>
+<div id="toast"></div>
+<div id="banner"></div>
+<div id="hud">
+  <div class="hud-box"><b>LIVING CITY</b><br><span class="dim">PHASER 3</span></div>
+  <div class="hud-box" id="hudSpeed">CITIZEN NPC</div>
+</div>
+<canvas id="minimap" width="96" height="96"></canvas>
+<div id="density">
+  <span class="dim">TRAFFIC</span><br><b id="trafficCount">14 CARS</b><br>
+  <button onclick="changeTraffic(1)">+</button>
+  <button onclick="changeTraffic(-1)">&minus;</button>
+</div>
+</div>
+<div id="controls">
+  <div class="dpad">
+    <div></div><div class="btn" id="up">▲</div><div></div>
+    <div class="btn" id="left">◀</div><div class="btn" id="down">▼</div><div class="btn" id="right">▶</div>
+  </div>
+  <div class="actions">
+    <div class="btn btn-round" id="btnE">E<span class="sub">ENTER</span></div>
+    <div class="btn btn-round" id="btnHorn">♪<span class="sub">HORN</span></div>
+    <div class="btn btn-round" id="btnFire">✹<span class="sub">FIRE</span></div>
+  </div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<script src="assets/world.js"></script>
+<script src="assets/visuals.js"></script>
+<script src="assets/vehicles.js"></script>
+<script src="assets/sounds.js"></script>
+<script src="assets/audio.js"></script>
+<script src="assets/scenes/GameScene.js"></script>
+<script src="assets/police.js"></script>
+<script src="assets/medical.js"></script>
+<script src="assets/main.js"></script>
+</body>
+</html>
